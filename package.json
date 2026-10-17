@@ -1,0 +1,19 @@
+{
+  "name": "smart-helmet-safety-system",
+  "version": "1.0.0",
+  "description": "Smart Helmet Emergency Alert System - Software Simulation Edition",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "smart-helmet",
+    "emergency-alert",
+    "road-safety",
+    "telemetry-simulation"
+  ],
+  "author": "",
+  "license": "MIT"
+}

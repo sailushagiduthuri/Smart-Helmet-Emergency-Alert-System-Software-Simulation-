@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Contacts — Smart Helmet Safety System</title>
+  <meta name="description" content="Manage emergency response contacts, designate primary responders, click-to-call, and pre-filled emergency SMS dispatches.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-badge">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">Smart Helmet</span>
+          <span class="logo-subtitle">Safety System</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-label">Command & Telemetry</span>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-wave-square"></i>
+          <span>Helmet Monitoring</span>
+        </a>
+
+        <span class="nav-label">Management</span>
+        <a href="riders.html" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Rider Profiles</span>
+        </a>
+        <a href="incidents.html" class="nav-item">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Incident History</span>
+        </a>
+        <a href="contacts.html" class="nav-item active">
+          <i class="fa-solid fa-address-book"></i>
+          <span>Emergency Contacts</span>
+        </a>
+
+        <span class="nav-label">Intelligence</span>
+        <a href="reports.html" class="nav-item">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+
+        <span class="nav-label" style="margin-top: auto;">System Session</span>
+        <a href="#" class="nav-item danger-link" onclick="Auth.logout(); return false;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebarUserAvatar">SH</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUserName">Dispatcher Ramos</span>
+            <span class="user-role-badge" id="sidebarUserRole">HQ Emergency Monitor</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="menu-toggle-btn" id="menuToggle" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-group">
+            <h1>Emergency Contacts</h1>
+            <p>Designate primary responders, execute 1-click calls, and generate distress SMS</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button type="button" class="btn btn-primary btn-sm" id="openAddContactModalBtn">
+            <i class="fa-solid fa-user-plus"></i> Add Emergency Contact
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="content-body">
+        
+        <!-- DISPATCH NOTICE -->
+        <div class="sim-notice-banner" style="margin-bottom: 2rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+          <div>
+            <strong>Emergency Response Policy:</strong> During accidents, the system links the rider's designated primary contact. The <em>Draft SMS</em> button prepares a pre-filled distress message for your device's native messaging application. In compliance with browser security, automatic SMS transmission requires a verified cloud telephony gateway (such as Twilio).
+          </div>
+        </div>
+
+        <!-- CONTACTS GRID -->
+        <div id="contactsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+          <!-- Populated dynamically by contacts.js -->
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT CONTACT MODAL -->
+  <div class="modal-overlay" id="contactFormModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="contactModalTitle">
+          <i class="fa-solid fa-user-plus"></i> Add Emergency Contact
+        </h3>
+        <button type="button" class="modal-close-btn" onclick="UI.closeModal('contactFormModal')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="contactForm">
+          <input type="hidden" id="editContactIdInput">
+
+          <div class="form-group">
+            <label class="form-label" for="contactNameInput">Contact Full Name <span class="required">*</span></label>
+            <input type="text" id="contactNameInput" class="form-control" placeholder="e.g. Dr. Emily Watson" required>
+            <div class="form-error" id="err_contact_name"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contactRelationInput">Relationship / Role</label>
+              <input type="text" id="contactRelationInput" class="form-control" placeholder="e.g. Family Physician / Spouse / Parent">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactPhoneInput">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="contactPhoneInput" class="form-control" placeholder="+1 (555) 789-0123" required>
+              <div class="form-error" id="err_contact_phone"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactEmailInput">Email Address (Optional)</label>
+            <input type="email" id="contactEmailInput" class="form-control" placeholder="emily.watson@hospital.org">
+            <div class="form-error" id="err_contact_email"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactNotesInput">Special Instructions / Availability Notes</label>
+            <textarea id="contactNotesInput" class="form-control" rows="2" placeholder="e.g. Speaks Spanish, available 24/7, near General Hospital..."></textarea>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.65rem; margin-top: 0.5rem;">
+            <input type="checkbox" id="contactIsPrimaryInput" style="width: 18px; height: 18px; cursor: pointer;">
+            <label for="contactIsPrimaryInput" style="font-size: 0.88rem; cursor: pointer; color: #ffffff;">
+              Set as Default Primary Emergency Contact
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="UI.closeModal('contactFormModal')">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveContactBtn">
+          <i class="fa-solid fa-floppy-disk"></i> Save Contact
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/database.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/contacts.js"></script>
+</body>
+</html>

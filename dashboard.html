@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Dashboard — Smart Helmet Safety System</title>
+  <meta name="description" content="Central monitoring, live accident statistics, Leaflet GPS triage map, and emergency SOS dispatch.">
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-badge">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">Smart Helmet</span>
+          <span class="logo-subtitle">Safety System</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-label">Command & Telemetry</span>
+        <a href="dashboard.html" class="nav-item active">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-wave-square"></i>
+          <span>Helmet Monitoring</span>
+        </a>
+
+        <span class="nav-label">Management</span>
+        <a href="riders.html" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Rider Profiles</span>
+        </a>
+        <a href="incidents.html" class="nav-item">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Incident History</span>
+        </a>
+        <a href="contacts.html" class="nav-item">
+          <i class="fa-solid fa-address-book"></i>
+          <span>Emergency Contacts</span>
+        </a>
+
+        <span class="nav-label">Intelligence</span>
+        <a href="reports.html" class="nav-item">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+
+        <span class="nav-label" style="margin-top: auto;">System Session</span>
+        <a href="#" class="nav-item danger-link" onclick="Auth.logout(); return false;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebarUserAvatar">SH</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUserName">Dispatcher Ramos</span>
+            <span class="user-role-badge" id="sidebarUserRole">HQ Emergency Monitor</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-wrapper">
+      
+      <!-- TOP NAVBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="menu-toggle-btn" id="menuToggle" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-group">
+            <h1>Command Dashboard</h1>
+            <p>Real-time accident monitoring and emergency dispatch console</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="system-status-pill">
+            <span class="status-dot"></span>
+            <span>Helmet Mesh Active</span>
+          </div>
+          <span class="demo-mode-tag">
+            <i class="fa-solid fa-microchip"></i>
+            <span>Local Demo Mode</span>
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="content-body">
+        
+        <!-- TOP CALLOUT: HERO SOS BANNER & QUICK SIMULATION ACCESS -->
+        <div class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, rgba(23, 35, 63, 0.95) 0%, rgba(17, 26, 46, 0.9) 100%); border-color: rgba(56, 189, 248, 0.3);">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-cyan); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.35rem;">
+                <i class="fa-solid fa-satellite"></i> Emergency Broadcast Protocol
+              </div>
+              <h2 style="font-size: 1.45rem; font-weight: 800; color: #fff;">Simulate Instant Distress Alert</h2>
+              <p style="font-size: 0.86rem; color: var(--text-secondary); max-width: 600px; margin-top: 0.2rem;">
+                Press the SOS button below to trigger an emergency incident with automated browser GPS capture, audible dispatch tone, and notification logging.
+              </p>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+              <a href="monitoring.html" class="btn btn-secondary">
+                <i class="fa-solid fa-wave-square"></i> Live Sensor Simulator
+              </a>
+              <!-- SOS BUTTON WITH PULSING RADAR RING -->
+              <div class="sos-btn-wrapper">
+                <div class="sos-pulse-ring"></div>
+                <button type="button" class="btn-sos" id="triggerSosBtn">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <span>EMERGENCY SOS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 KPI STATS CARDS -->
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Total Riders</span>
+              <span class="stat-value" id="statTotalRiders">0</span>
+              <span class="stat-subtext">Registered in fleet</span>
+            </div>
+            <div class="stat-icon blue">
+              <i class="fa-solid fa-users"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Total Accidents</span>
+              <span class="stat-value" id="statTotalIncidents">0</span>
+              <span class="stat-subtext">Simulated & logged</span>
+            </div>
+            <div class="stat-icon amber">
+              <i class="fa-solid fa-burst"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Active Alerts</span>
+              <span class="stat-value" id="statActiveAlerts" style="color: #f87171;">0</span>
+              <span class="stat-subtext">Awaiting emergency response</span>
+            </div>
+            <div class="stat-icon red">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Resolved</span>
+              <span class="stat-value" id="statResolvedIncidents" style="color: #34d399;">0</span>
+              <span class="stat-subtext">Assistance confirmed</span>
+            </div>
+            <div class="stat-icon green">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Helmet Status</span>
+              <span class="stat-value" id="statConnectedHelmets" style="font-size: 1.5rem;">0/0</span>
+              <span class="stat-subtext">Synchronized with telemetry</span>
+            </div>
+            <div class="stat-icon blue">
+              <i class="fa-solid fa-hard-hat"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE MAP & CHART ROW -->
+        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          
+          <!-- Leaflet Live Incident Map -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-map-location-dot"></i> Live Incident & Rider Location Map
+                </h3>
+                <p class="card-subtitle">Real-time incident markers with OpenStreetMap & GPS coordinates</p>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="DashboardController.updateMapMarkers()">
+                <i class="fa-solid fa-rotate-right"></i> Refresh Pins
+              </button>
+            </div>
+            <div id="dashboardMap" class="map-box"></div>
+            <div style="display: flex; gap: 1.25rem; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; flex-wrap: wrap;">
+              <span><i class="fa-solid fa-circle" style="color:#ef4444;"></i> Critical / New Alert</span>
+              <span><i class="fa-solid fa-circle" style="color:#f59e0b;"></i> Acknowledged</span>
+              <span><i class="fa-solid fa-circle" style="color:#a855f7;"></i> Paramedic Dispatched</span>
+              <span><i class="fa-solid fa-circle" style="color:#10b981;"></i> Resolved</span>
+            </div>
+          </div>
+
+          <!-- Incident Distribution Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-chart-pie"></i> Incident Severity
+                </h3>
+                <p class="card-subtitle">Live breakdown from database</p>
+              </div>
+            </div>
+            <div style="height: 310px; position: relative;">
+              <canvas id="dashboardIncidentChart"></canvas>
+            </div>
+            <div style="text-align: center; margin-top: 0.5rem;">
+              <a href="reports.html" style="font-size: 0.8rem; font-weight: 600;">
+                View Detailed Analytics Reports <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT INCIDENTS TABLE & RECENT ACTIVITY ROW -->
+        <div style="display: grid; grid-template-columns: 1.7fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
+          
+          <!-- Recent Incidents Table -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger);"></i> Recent Accident Incidents
+                </h3>
+                <p class="card-subtitle">Showing latest 5 emergency events</p>
+              </div>
+              <a href="incidents.html" class="btn btn-outline btn-sm">
+                View All Records <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Incident ID</th>
+                    <th>Rider</th>
+                    <th>Type</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recentIncidentsTableBody">
+                  <!-- Populated dynamically by dashboard.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Live Activity Log Stream -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-clock-rotate-left"></i> System Audit Trail
+                </h3>
+                <p class="card-subtitle">Recent automated safety events</p>
+              </div>
+            </div>
+            <div id="recentActivityFeed" style="display: flex; flex-direction: column;">
+              <!-- Populated dynamically by dashboard.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- DEMO DATA RESET & UTILITY CONTROLS -->
+        <div class="card" style="border-style: dashed; border-color: rgba(56, 189, 248, 0.25);">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <div>
+              <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff;">Demonstration Data Controls</h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+                Reset sample riders, helmets, and simulated crashes anytime, or wipe the local database clean for a fresh test.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.65rem;">
+              <button type="button" class="btn btn-outline btn-sm" id="resetDemoDataBtn">
+                <i class="fa-solid fa-rotate-right"></i> Reset Demo Data
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" id="clearAllDataBtn" style="color:#f87171;">
+                <i class="fa-solid fa-trash-can"></i> Clear All Data
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- SOS CONFIRMATION MODAL (Requirement 4.E) -->
+  <div class="modal-overlay" id="sosConfirmationModal">
+    <div class="modal-container" style="border-color: var(--danger); box-shadow: var(--shadow-glow-red);">
+      <div class="modal-header" style="background: rgba(239, 68, 68, 0.15);">
+        <h3 class="modal-title" style="color: #f87171;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Confirm Emergency SOS Broadcast
+        </h3>
+        <button type="button" class="modal-close-btn" onclick="UI.closeModal('sosConfirmationModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.25rem;">
+          Are you sure you want to trigger an emergency SOS alert? This creates an emergency incident record awaiting response and links the rider's primary contact details.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="sosRiderSelect">Select Rider in Distress <span class="required">*</span></label>
+          <select id="sosRiderSelect" class="form-control"></select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="sosLatitudeInput">Latitude Coordinates</label>
+            <input type="text" id="sosLatitudeInput" class="form-control" placeholder="37.7749">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sosLongitudeInput">Longitude Coordinates</label>
+            <input type="text" id="sosLongitudeInput" class="form-control" placeholder="-122.4194">
+          </div>
+        </div>
+
+        <div id="sosLocationStatus" style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Acquiring location...
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sosNotesInput">Distress Situation Notes</label>
+          <input type="text" id="sosNotesInput" class="form-control" value="Manual SOS triggered from Dashboard. Urgent assistance requested.">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="UI.closeModal('sosConfirmationModal')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmSosActionBtn">
+          <i class="fa-solid fa-triangle-exclamation"></i> Confirm & Dispatch SOS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Core App Scripts -->
+  <script src="js/database.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

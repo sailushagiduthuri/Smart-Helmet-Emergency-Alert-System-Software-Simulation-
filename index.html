@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Helmet Emergency Alert System — Software Simulation</title>
+  <meta name="description" content="Simulated smart helmet accident detection, geolocation mapping, and emergency dispatch system with no hardware requirements.">
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Landing Header -->
+  <header style="border-bottom: 1px solid var(--border-color); background: rgba(17, 26, 46, 0.85); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.85rem;">
+        <div class="logo-badge">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">Smart Helmet Safety System</span>
+          <span class="logo-subtitle">Software Emergency Alert Edition</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span class="demo-mode-tag">
+          <i class="fa-solid fa-microchip"></i> <span>Zero Hardware Simulation</span>
+        </span>
+        <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+        <a href="dashboard.html" class="btn btn-primary btn-sm">
+          <i class="fa-solid fa-gauge-high"></i> Open Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main style="max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem;">
+    <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center; margin-bottom: 4rem;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 0.35rem 0.85rem; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 600; margin-bottom: 1.25rem;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Simulated Road Safety & Incident Response
+        </div>
+        <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.25rem; letter-spacing: -0.02em;">
+          Immediate Accident Detection & Emergency Dispatch — <span style="background: linear-gradient(135deg, #38bdf8 0%, #ef4444 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">In Pure Software</span>
+        </h1>
+        <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">
+          Demonstrate how next-generation smart helmets detect high-G impacts, sudden falls, and manual SOS panics. Featuring interactive Leaflet GPS mapping, simulated 3-axis accelerometer telemetry, and instant emergency contact dispatch workflows.
+        </p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;">
+          <a href="dashboard.html" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-play"></i> Launch Demo Console
+          </a>
+          <a href="monitoring.html" class="btn btn-secondary btn-lg">
+            <i class="fa-solid fa-wave-square"></i> Telemetry Simulator
+          </a>
+          <a href="login.html" class="btn btn-outline btn-lg">
+            <i class="fa-solid fa-user-lock"></i> Login / Register
+          </a>
+        </div>
+
+        <div style="display: flex; gap: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #fff;">100%</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Software Only</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8;">GPS + Map</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">OpenStreetMap</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #34d399;">Offline-Ready</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">LocalStorage Seed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Visual Card -->
+      <div class="card" style="border-color: rgba(56, 189, 248, 0.3); box-shadow: var(--shadow-glow-blue); background: linear-gradient(145deg, rgba(17, 26, 46, 0.95), rgba(11, 19, 37, 0.9));">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-satellite-dish" style="color:var(--accent-cyan);"></i> Live System Preview
+          </div>
+          <span class="system-status-pill">
+            <span class="status-dot"></span> System Armed
+          </span>
+        </div>
+
+        <div style="background: rgba(10, 15, 29, 0.8); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span style="font-size: 0.82rem; color: var(--text-secondary);">Active Target Rider:</span>
+            <strong style="color: #ffffff;">Alex Johnson (HLM-8088)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span style="font-size: 0.82rem; color: var(--text-secondary);">Simulated Telemetry:</span>
+            <span class="badge badge-resolved"><i class="fa-solid fa-check"></i> 1.02G Cruising</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.82rem; color: var(--text-secondary);">Infrared Proximity:</span>
+            <span class="badge badge-info"><i class="fa-solid fa-shield"></i> Helmet Worn</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="dashboard.html" class="btn btn-danger" style="width: 100%; font-size: 0.95rem;">
+            <i class="fa-solid fa-triangle-exclamation"></i> Try 1-Click SOS Panic Flow
+          </a>
+          <a href="monitoring.html" class="btn btn-outline" style="width: 100%;">
+            <i class="fa-solid fa-burst"></i> Simulate High-G Crash Spike
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Features Grid -->
+    <div style="margin-bottom: 4rem;">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <h2 style="font-size: 1.85rem; font-weight: 700; color: #fff;">System Architecture & Capabilities</h2>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 600px; margin: 0.5rem auto 0;">
+          Built for classroom demonstrations, final-year engineering presentations, and modular hardware integration.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <div class="card">
+          <div class="stat-icon blue" style="margin-bottom: 1rem;"><i class="fa-solid fa-wave-square"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Sensor Telemetry Simulator</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+            Generates 3-axis accelerometer values (X, Y, Z), resultant G-force, and speed fluctuations with automated cleanup timers.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="stat-icon red" style="margin-bottom: 1rem;"><i class="fa-solid fa-burst"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Accident Detection Logic</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+            Triggers emergency warning beacons when simulated impact exceeds 4.0G, creating timestamped incident records and audio alarms.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="stat-icon green" style="margin-bottom: 1rem;"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Leaflet GPS Mapping</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+            Captures real browser coordinates via HTML5 Geolocation API with graceful fallbacks and direct links to Google Maps.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="stat-icon amber" style="margin-bottom: 1rem;"><i class="fa-solid fa-address-book"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Emergency Contact Triage</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+            Click-to-call links and prefilled distress SMS generators for primary contacts and municipal paramedic dispatchers.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="stat-icon blue" style="margin-bottom: 1rem;"><i class="fa-solid fa-chart-pie"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Analytics & CSV Exports</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+            Dynamic Chart.js visualizations calculate trends, severity ratios, and rider breakdowns directly from persistent records.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="stat-icon green" style="margin-bottom: 1rem;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Firebase & Local Storage</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">
+            Zero configuration required out of the box with LocalStorage; pluggable Firebase Auth & Cloud Firestore adapter ready.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Evaluator Quick Demo Box -->
+    <div class="card" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05); padding: 2rem;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;">
+        <div>
+          <span class="badge badge-warning" style="margin-bottom: 0.5rem;">Evaluation Quick Start</span>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff;">Are you testing or grading this project?</h3>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; max-width: 650px;">
+            The project starts immediately in Demo Mode with pre-seeded sample riders, helmets, incident logs, and contacts. No setup or API keys needed.
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <a href="dashboard.html" class="btn btn-warning">
+            <i class="fa-solid fa-gauge"></i> Enter Dashboard Directly
+          </a>
+          <a href="login.html" class="btn btn-outline">
+            <i class="fa-solid fa-id-card"></i> Demo Login Options
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer style="border-top: 1px solid var(--border-color); padding: 2rem 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.82rem;">
+    <p>Smart Helmet Emergency Alert System — Software Simulation Edition.</p>
+    <p style="margin-top: 0.35rem;">Designed for academic demonstration and road-safety research without requiring physical sensor hardware.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/database.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

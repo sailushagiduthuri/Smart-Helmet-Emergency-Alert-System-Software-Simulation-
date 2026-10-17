@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Safety Analytics — Smart Helmet Safety System</title>
+  <meta name="description" content="Analytical trends, incident distribution charts, resolution rates, and CSV reporting.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-badge">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">Smart Helmet</span>
+          <span class="logo-subtitle">Safety System</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-label">Command & Telemetry</span>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-wave-square"></i>
+          <span>Helmet Monitoring</span>
+        </a>
+
+        <span class="nav-label">Management</span>
+        <a href="riders.html" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Rider Profiles</span>
+        </a>
+        <a href="incidents.html" class="nav-item">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Incident History</span>
+        </a>
+        <a href="contacts.html" class="nav-item">
+          <i class="fa-solid fa-address-book"></i>
+          <span>Emergency Contacts</span>
+        </a>
+
+        <span class="nav-label">Intelligence</span>
+        <a href="reports.html" class="nav-item active">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+
+        <span class="nav-label" style="margin-top: auto;">System Session</span>
+        <a href="#" class="nav-item danger-link" onclick="Auth.logout(); return false;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebarUserAvatar">SH</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUserName">Dispatcher Ramos</span>
+            <span class="user-role-badge" id="sidebarUserRole">HQ Emergency Monitor</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="menu-toggle-btn" id="menuToggle" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-group">
+            <h1>Reports & Analytics</h1>
+            <p>Calculated directly from persistent application data</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <select id="reportDateFilter" class="form-control" style="width: auto; font-size: 0.85rem;">
+            <option value="all">All-Time Records</option>
+            <option value="7days">Past 7 Days</option>
+            <option value="30days">Past 30 Days</option>
+            <option value="90days">Past 90 Days</option>
+          </select>
+          <button type="button" class="btn btn-outline btn-sm" id="exportAnalyticsCsvBtn">
+            <i class="fa-solid fa-download"></i> Export Analytics CSV
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="content-body">
+        
+        <!-- 4 KPI SUMMARY METRICS -->
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Total Incidents</span>
+              <span class="stat-value" id="repTotalIncidents">0</span>
+              <span class="stat-subtext">Across selected period</span>
+            </div>
+            <div class="stat-icon blue">
+              <i class="fa-solid fa-folder-closed"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Resolved Cases</span>
+              <span class="stat-value" id="repResolvedIncidents" style="color: #34d399;">0</span>
+              <span class="stat-subtext">Closed / safe</span>
+            </div>
+            <div class="stat-icon green">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Pending / Unresolved</span>
+              <span class="stat-value" id="repUnresolvedIncidents" style="color: #f87171;">0</span>
+              <span class="stat-subtext">Active triage / review</span>
+            </div>
+            <div class="stat-icon red">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Resolution Rate</span>
+              <span class="stat-value" id="repResolutionRate" style="color: #38bdf8;">100%</span>
+              <span class="stat-subtext">Emergency efficiency</span>
+            </div>
+            <div class="stat-icon amber">
+              <i class="fa-solid fa-percent"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 CHARTS ROW (TREND LINE + SEVERITY DOUGHNUT) -->
+        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-chart-line"></i> Incident Frequency Trend
+                </h3>
+                <p class="card-subtitle">Volume of simulated collisions and alerts over time</p>
+              </div>
+            </div>
+            <div style="height: 300px; position: relative;">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-chart-pie"></i> Severity Proportion
+                </h3>
+                <p class="card-subtitle">Critical vs Moderate vs Low Impact</p>
+              </div>
+            </div>
+            <div style="height: 300px; position: relative;">
+              <canvas id="severityChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- INCIDENT TYPE BAR CHART + RIDER BREAKDOWN TABLE -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          
+          <!-- Incident Type Bar Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-chart-simple"></i> Incident Type Distribution
+                </h3>
+                <p class="card-subtitle">Distribution by collision category</p>
+              </div>
+            </div>
+            <div style="height: 280px; position: relative;">
+              <canvas id="typeChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Rider Breakdown Table -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-id-card-clip"></i> Rider-Wise Incident Statistics
+                </h3>
+                <p class="card-subtitle">Per-rider safety audit record</p>
+              </div>
+            </div>
+            <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Rider</th>
+                    <th>Blood</th>
+                    <th>Total</th>
+                    <th>Critical</th>
+                    <th>Resolved</th>
+                  </tr>
+                </thead>
+                <tbody id="riderBreakdownTableBody">
+                  <!-- Populated dynamically by reports.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="js/database.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>
